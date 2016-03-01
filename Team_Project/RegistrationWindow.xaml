@@ -1,0 +1,34 @@
+﻿<Window x:Class="Team_Project.RegistrationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Registration" Height="300" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="1.5*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>   
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="Login" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontFamily="Calibri"/>
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Password" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="14"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Name" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="14"/>
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="Surname" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="14"/>
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Date of birth" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Calibri" FontSize="14"/>
+        
+        <TextBox Name="LoginTextBox" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Left" Width="102" BorderThickness="2" FontFamily="Calibri" FontSize="14"/>
+        <TextBox Name="PasswordTextBox" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Left" Width="102" BorderThickness="2" FontSize="14" FontFamily="Calibri"/>
+        <TextBox Name="NameTextBox" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Left" Width="102" BorderThickness="2" FontSize="14" FontFamily="Calibri"/>
+        <TextBox Name="SurnameTextBox" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Left" Width="102" BorderThickness="2" FontSize="14" FontFamily="Calibri"/>
+        
+        <DatePicker Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" BorderThickness="2" FirstDayOfWeek="Monday" DisplayDate="2016-01-03" IsTodayHighlighted="False" FontSize="14" FontFamily="Calibri"/>
+        
+        <Button Name="OKButton" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Width="70" Height="25" Content="OK" FontSize="14" FontFamily="Calibri" Click="OKButton_Click"/>
+        <Button Name="CancelButton" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="70" Height="25" Content="Cancel" FontSize="14" FontFamily="Calibri" Click="CancelButton_Click"/>
+    </Grid>
+</Window>
