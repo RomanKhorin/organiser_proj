@@ -2,6 +2,15 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Plans" Height="380" Width="570">
+    <Window.Resources>
+        <Style x:Key="ButtonStyle">
+            <Setter Property="Control.Background" Value="#FFF7F7F7"/>
+            <Setter Property="Control.Foreground" Value="Black"/>
+            <Setter Property="Control.BorderBrush" Value="#FFF7F7F7"/>
+            <Setter Property="Control.FontFamily" Value="Calibry"/>
+            <Setter Property="Control.FontSize" Value="14px"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -11,20 +20,26 @@
             <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.75*"/>
+            <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
-        <Button Name="addButton" Content="Add" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="25" FontSize="14" FontFamily="Calibri"/>
-        <Button Name="deleteButton" Content="Delete" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="25" FontFamily="Calibri" FontSize="14"/>
-        <Button Name="editButton" Content="Edit" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="25" FontFamily="Calibri" FontSize="14"/>
-        <Button Name="comlpetedButton" Content="Completed" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="25" FontFamily="Calibri" FontSize="14"/>
+        <Rectangle Grid.Column="0" Grid.RowSpan="5" Fill="#FFF7F7F7"/>
+        <Button Name="addButton" Content="Add" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="25"
+                Style="{StaticResource ButtonStyle}"/>
+        <Button Name="deleteButton" Content="Delete" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="25"
+                Style="{StaticResource ButtonStyle}"/>
+        <Button Name="editButton" Content="Edit" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="25"
+                Style="{StaticResource ButtonStyle}"/>
+        <Button Name="comlpetedButton" Content="Completed" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Height="25"
+                Style="{StaticResource ButtonStyle}"/>
 
 
-        <Border Grid.Row="0" Grid.Column="1" BorderBrush="#FFABADB3" BorderThickness="2,2,2,0" Margin="0,0,10,0">
-            <TextBlock Text="Scheduled tasks" Grid.Row="0" Grid.Column="1" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontFamily="Calibri"/>
+        <Border Grid.Row="0" Grid.Column="1" BorderBrush="#FFE0E0E0" BorderThickness="2,2,2,0" Margin="0,0,1,0">
+            <TextBlock Text="Scheduled tasks" Grid.Row="0" Grid.Column="1" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"
+                       FontSize="14" FontFamily="Calibri" Height="25" Width="100"/>
         </Border>
 
         <ListBox x:Name="plansListBox" ScrollViewer.HorizontalScrollBarVisibility="Auto" Grid.Row="1" Grid.RowSpan="4" Grid.Column="1" 
-                 HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="2" Margin="0,0,10,10" FontSize="14" FontFamily="Calibri"/>
+                 HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="2" Margin="0,0,1,1" FontSize="14" FontFamily="Calibri" BorderBrush="#FFE0E0E0"/>
     </Grid>
 </Window>
