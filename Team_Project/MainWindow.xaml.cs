@@ -33,6 +33,7 @@ namespace Team_Project
 
         private void SignInButton_Click(object sender, RoutedEventArgs e)
         {
+            this.Hide();
             PlansWindow plnwindow = new PlansWindow();
             plnwindow.ShowDialog();
         }

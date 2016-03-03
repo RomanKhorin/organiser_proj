@@ -24,6 +24,11 @@ namespace Team_Project
             InitializeComponent();
         }
 
+        private void exitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
         
     }
 }
