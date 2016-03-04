@@ -22,6 +22,17 @@ namespace Team_Project
         public PlansWindow()
         {
             InitializeComponent();
+            this.Closing += this.App_Closing;
+        }
+
+        /// <summary>
+        /// Closing event handler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void App_Closing(object sender, EventArgs e)
+        {
+            Application.Current.Shutdown();
         }
 
         private void exitButton_Click(object sender, RoutedEventArgs e)
@@ -29,6 +40,5 @@ namespace Team_Project
             Application.Current.Shutdown();
         }
 
-        
     }
 }
