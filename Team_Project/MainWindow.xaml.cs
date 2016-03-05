@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,16 @@ namespace Team_Project
     /// </summary>
     public partial class MainWindow : Window
     {
+        string password;
+        PlansWindow plan_window;
+        SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\Users\\Roma\\Documents\\Visual Studio 2013\\Projects\\Team_Project\\ODB\\ODB\\ODB.mdf;Integrated Security=True;Connect Timeout=30");
+
+        public static string CurrentUser { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            signInButton.IsDefault = true;
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
@@ -33,7 +41,6 @@ namespace Team_Project
 
         private void SignInButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
             PlansWindow plnwindow = new PlansWindow();
             plnwindow.ShowDialog();
         }
