@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,7 @@ namespace Team_Project
     public partial class MainWindow : Window
     {
         string password;
-        PlansWindow plan_window;
+        PlansWindow plan_window = new PlansWindow();
         SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\Users\\Roma\\Documents\\Visual Studio 2013\\Projects\\Team_Project\\ODB\\ODB\\ODB.mdf;Integrated Security=True;Connect Timeout=30");
 
         public static string CurrentUser { get; set; }
@@ -40,8 +41,64 @@ namespace Team_Project
 
         private void SignInButton_Click(object sender, RoutedEventArgs e)
         {
-            PlansWindow plnwindow = new PlansWindow();
-            plnwindow.ShowDialog();
+            try
+            {
+                connection.Open();
+                password = passwordTextBox.Password.ToString();
+                var validation = new SqlDataAdapter(("select count(*) from [User] where Login like '" + CurrentUser + "' " + "and Password like '" + password + "'"), connection);
+                DataTable dt = new DataTable();
+
+                validation.Fill(dt);
+                connection.Close();
+
+                if (dt.Rows.Count == 1)
+                {
+                    GetUncompletedTasks(connection);
+                    plan_window.Show();
+                    this.Close();
+                }
+                else
+                    MessageBox.Show("Check your login and password or sign up", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception except)
+            {
+                MessageBox.Show(except.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        public void GetUncompletedTasks(SqlConnection connection)
+        {
+            try
+            {
+                connection.Open();
+                var plans = new SqlCommand(("Select * from [Plan] where User_login like '" + CurrentUser + "' and IsCompleted='N'"), connection);
+                SqlDataReader reader = plans.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    string plan = reader.GetString(1);
+                    plan_window.plansListBox.Items.Add(plan);
+                }
+
+                connection.Close();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception except)
+            {
+                MessageBox.Show(except.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void loginTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            CurrentUser = loginTextBox.Text;
         }
     }
 }
