@@ -46,6 +46,7 @@ namespace Team_Project
                     cmd.Parameters.Add("@Date_of_birth", birthDatePicker.SelectedDate);
                     cmd.ExecuteNonQuery();
                     connection.Close();
+
                     this.Close();
                 }
                 else

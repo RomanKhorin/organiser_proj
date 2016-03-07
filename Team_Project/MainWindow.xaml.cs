@@ -23,7 +23,7 @@ namespace Team_Project
     public partial class MainWindow : Window
     {
         string password;
-        PlansWindow plan_window = new PlansWindow();
+        PlansWindow plan_window;
         SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\Users\\Roma\\Documents\\Visual Studio 2013\\Projects\\Team_Project\\ODB\\ODB\\ODB.mdf;Integrated Security=True;Connect Timeout=30");
 
         public static string CurrentUser { get; set; }
@@ -43,8 +43,10 @@ namespace Team_Project
         {
             try
             {
-                connection.Open();
+                plan_window = new PlansWindow();
                 password = passwordTextBox.Password.ToString();
+
+                connection.Open();
                 var validation = new SqlDataAdapter(("select count(*) from [User] where Login like '" + CurrentUser + "' " + "and Password like '" + password + "'"), connection);
                 DataTable dt = new DataTable();
 
