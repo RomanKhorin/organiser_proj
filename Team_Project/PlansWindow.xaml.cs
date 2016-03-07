@@ -40,5 +40,11 @@ namespace Team_Project
             Application.Current.Shutdown();
         }
 
+        private void addButton_Click(object sender, RoutedEventArgs e)
+        {
+            PlanDescription descriptionWindow = new PlanDescription();
+            descriptionWindow.ShowDialog();
+        }
+
     }
 }

@@ -22,36 +22,41 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="White"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="0.6*"/>
+            <RowDefinition Height="0.6*"/>
+            <RowDefinition Height="0.6*"/>
+            <RowDefinition Height="0.6*"/>
             <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="0.6*"/>
+            <RowDefinition Height="1.5*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="4*"/>
         </Grid.ColumnDefinitions>
-        <Rectangle Grid.Column="0" Grid.RowSpan="5" Fill="#FFB42E"/>
-        <Button Name="addButton" Content="Add" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center"  Height="35"/>
-        <Button Name="deleteButton" Content="Delete" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="35"/>
-        <Button Name="editButton" Content="Edit" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="35"/>
-        <Button Name="comlpetedButton" Content="Completed" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="35"/>
-        <Button Name="exitButton" Content="Exit" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="35" 
-                Margin="0,115,0,0" Click="exitButton_Click"/>
+        <Rectangle Grid.Column="0" Grid.RowSpan="7" Fill="#FFB42E"/>
+        <Button Name="addButton" Content="Add" Grid.Row="0" Grid.Column="0" Click="addButton_Click"/>
+        <Button Name="deleteButton" Content="Delete" Grid.Row="1" Grid.Column="0"/>
+        <Button Name="editButton" Content="Edit" Grid.Row="2" Grid.Column="0"/>
+        <Button Name="comlpetedButton" Content="Completed" Grid.Row="3" Grid.Column="0"/>
+        <Button Name="exitButton" Content="Exit" Grid.Row="6" Grid.Column="0" VerticalAlignment="Bottom" Height="35" 
+                Click="exitButton_Click" Margin="0"/>
+        <Button Name="competedTasksButton" Content="Show completed tasks" Width="150" Grid.Column="1" Grid.Row="5" Background="White"/>
 
         <Border Grid.Row="0" Grid.Column="1" BorderBrush="#FFB42E" BorderThickness="0,2,0,0" Margin="0,0,1,0">
-            <TextBlock Text="Scheduled tasks" Grid.Row="0" Grid.Column="1" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"
-                       FontSize="14" FontFamily="Calibri" Height="25" Width="100"/>
+            <TextBlock Text="Scheduled tasks" Grid.Row="0" Grid.Column="1" TextAlignment="Center" VerticalAlignment="Center"
+                       FontSize="15" FontFamily="Calibri"/>
         </Border>
 
         <ListBox x:Name="plansListBox" ScrollViewer.HorizontalScrollBarVisibility="Auto" Grid.Row="1" Grid.RowSpan="4" Grid.Column="1" HorizontalContentAlignment="Stretch" 
-                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0,2,0,0" Margin="0,0,1,1" FontSize="14" FontFamily="Calibri" BorderBrush="#FFB42E"/>
+                 BorderThickness="0,2" FontSize="14" FontFamily="Calibri" BorderBrush="#FFB42E"/>
+        <ListBox x:Name="completedTasksListBox" Grid.Row="6" Grid.Column="1" HorizontalContentAlignment="Stretch" FontSize="14" FontFamily="Calibry" BorderThickness="0,2,0,0" BorderBrush="#FFFFB42E"/>
     </Grid>
 </Window>

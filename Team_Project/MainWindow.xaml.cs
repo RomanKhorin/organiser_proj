@@ -30,7 +30,6 @@ namespace Team_Project
         public MainWindow()
         {
             InitializeComponent();
-            signInButton.IsDefault = true;
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
