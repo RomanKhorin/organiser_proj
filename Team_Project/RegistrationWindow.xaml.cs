@@ -42,11 +42,11 @@ namespace Team_Project
                     SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\Users\\Roma\\Documents\\Visual Studio 2013\\Projects\\Team_Project\\ODB\\ODB\\ODB.mdf;Integrated Security=True;Connect Timeout=30");
                     connection.Open();
                     SqlCommand cmd = new SqlCommand("Insert into [User] (Login, Password, Name, Surname, Date_of_birth) values (@Login, @Password, @Name, @Surname, @Date_of_birth)", connection);
-                    cmd.Parameters.Add("@Login", loginTextBox.Text);
-                    cmd.Parameters.Add("@Password", passwordTextBox.Text);
-                    cmd.Parameters.Add("@Name", nameTextBox.Text);
-                    cmd.Parameters.Add("@Surname", surnameTextBox.Text);
-                    cmd.Parameters.Add("@Date_of_birth", birthDatePicker.SelectedDate);
+                    cmd.Parameters.AddWithValue("@Login", loginTextBox.Text);
+                    cmd.Parameters.AddWithValue("@Password", passwordTextBox.Text);
+                    cmd.Parameters.AddWithValue("@Name", nameTextBox.Text);
+                    cmd.Parameters.AddWithValue("@Surname", surnameTextBox.Text);
+                    cmd.Parameters.AddWithValue("@Date_of_birth", birthDatePicker.SelectedDate);
                     cmd.ExecuteNonQuery();
                     connection.Close();
 

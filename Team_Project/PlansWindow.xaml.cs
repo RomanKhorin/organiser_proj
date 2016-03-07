@@ -22,7 +22,6 @@ namespace Team_Project
     {
         SqlCommand cmd;
 
-        PlanDescription plan = new PlanDescription();
         MainWindow main_window = new MainWindow();
         SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\Users\\Roma\\Documents\\Visual Studio 2013\\Projects\\Team_Project\\ODB\\ODB\\ODB.mdf;Integrated Security=True;Connect Timeout=30");
 
@@ -59,23 +58,27 @@ namespace Team_Project
         {
             try
             {
+                PlanDescription plan = new PlanDescription();
                 plan.descriptionTextBox.Text = "";
-                plan.ShowDialog();
+                bool? result = plan.ShowDialog();
 
-                if (String.IsNullOrEmpty(plan.descriptionTextBox.Text) == false &&
-                    InputLanguageManager.Current.CurrentInputLanguage.Name == "en-US")
+                if (result.Value == true)
                 {
-                    connection.Open();
-                    cmd = new SqlCommand("Insert into [Plan] (User_login, Description, IsCompleted) values (@User_login, @Description, 'N')", connection);
-                    cmd.Parameters.Add("@User_login", MainWindow.CurrentUser);
-                    cmd.Parameters.Add("@Description", plan.descriptionTextBox.Text);
-                    cmd.ExecuteNonQuery();
-                    connection.Close();
+                    if (String.IsNullOrEmpty(plan.descriptionTextBox.Text) == false &&
+                        InputLanguageManager.Current.CurrentInputLanguage.Name == "en-US")
+                    {
+                        connection.Open();
+                        cmd = new SqlCommand("Insert into [Plan] (User_login, Description, IsCompleted) values (@User_login, @Description, 'N')", connection);
+                        cmd.Parameters.AddWithValue("@User_login", MainWindow.CurrentUser);
+                        cmd.Parameters.AddWithValue("@Description", plan.descriptionTextBox.Text);
+                        cmd.ExecuteNonQuery();
+                        connection.Close();
 
-                    plansListBox.Items.Add(plan.descriptionTextBox.Text);
+                        plansListBox.Items.Add(plan.descriptionTextBox.Text);
+                    }
+                    else
+                        MessageBox.Show("Description can't be empty or written in Russian (Write in English)", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
-                else
-                    MessageBox.Show("Description can't be empty or written in Russian (Write in English)", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (SqlException ex)
             {
