@@ -32,12 +32,21 @@ namespace Team_Project
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Opens the registration window so user
+        /// could sign up
+        /// </summary>
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             RegistrationWindow regWindow = new RegistrationWindow();
             regWindow.ShowDialog();
         }
 
+        /// <summary>
+        /// After pressing the "Sign In" button checks if the user's 
+        /// login and password exist in DataBase and after that
+        /// may open the new plans window
+        /// </summary>
         private void SignInButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -70,6 +79,10 @@ namespace Team_Project
             }
         }
 
+        /// <summary>
+        /// Queries the DataBase, gets the uncompleted user's tasks
+        /// and adds them to the plans listbox
+        /// </summary>
         public void GetUncompletedTasks(SqlConnection connection)
         {
             try
@@ -96,6 +109,9 @@ namespace Team_Project
             }
         }
 
+        /// <summary>
+        /// Gets the current user name from the login textbox
+        /// </summary>
         private void loginTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             CurrentUser = loginTextBox.Text;

@@ -24,6 +24,9 @@ namespace Team_Project
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Closes the PlansDescription Window
+        /// </summary>
         private void okDescriptionButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

@@ -27,7 +27,7 @@ namespace Team_Project
         SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\Users\\Roma\\Documents\\Visual Studio 2013\\Projects\\Team_Project\\ODB\\ODB\\ODB.mdf;Integrated Security=True;Connect Timeout=30");
 
         public static string CurrentPlan { get; set; }
-        
+
         public PlansWindow()
         {
             InitializeComponent();
@@ -37,18 +37,24 @@ namespace Team_Project
         /// <summary>
         /// Closing event handler
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void App_Closing(object sender, EventArgs e)
         {
             Application.Current.Shutdown();
         }
 
+        /// <summary>
+        /// Shuts down the application after pressing
+        /// the "Exit" button
+        /// </summary>
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
 
+        /// <summary>
+        /// Adds the plan to the DataBase and plans listbox after filling
+        /// the plan description in PlanDescription Window
+        /// </summary>
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -70,14 +76,20 @@ namespace Team_Project
                 else
                     MessageBox.Show("Description can't be empty or written in Russian (Write in English)", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception)
+            catch (SqlException ex)
             {
-                
-                throw;
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception except)
+            {
+                MessageBox.Show(except.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
-
+        /// <summary>
+        /// Deletes selected plan from the DataBase
+        /// and plans listbox
+        /// </summary>
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
             try

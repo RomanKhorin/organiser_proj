@@ -26,9 +26,12 @@ namespace Team_Project
             okButton.IsDefault = true;
         }
 
+        /// <summary>
+        /// After pressing the "OK" buton adds user to the DataBase
+        /// so he could login
+        /// </summary>
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
-
             try
             {
                 if (!string.IsNullOrEmpty(loginTextBox.Text) && !string.IsNullOrEmpty(passwordTextBox.Text) &&
@@ -62,6 +65,10 @@ namespace Team_Project
             }
         }
 
+        /// <summary>
+        /// After pressing the "Cancel" button
+        /// exits from the registration window
+        /// </summary>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
