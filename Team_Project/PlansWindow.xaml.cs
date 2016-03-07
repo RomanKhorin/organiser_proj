@@ -21,11 +21,13 @@ namespace Team_Project
     public partial class PlansWindow : Window
     {
         SqlCommand cmd;
-        
+
+        PlanDescription plan = new PlanDescription();
         MainWindow main_window = new MainWindow();
         SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\Users\\Roma\\Documents\\Visual Studio 2013\\Projects\\Team_Project\\ODB\\ODB\\ODB.mdf;Integrated Security=True;Connect Timeout=30");
 
         public static string CurrentPlan { get; set; }
+        
         public PlansWindow()
         {
             InitializeComponent();
@@ -46,6 +48,35 @@ namespace Team_Project
         {
             Application.Current.Shutdown();
         }
+
+        private void addButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                plan.ShowDialog();
+
+                if (String.IsNullOrEmpty(plan.descriptionTextBox.Text) == false &&
+                    InputLanguageManager.Current.CurrentInputLanguage.Name == "en-US")
+                {
+                    connection.Open();
+                    cmd = new SqlCommand("Insert into [Plan] (User_login, Description, IsCompleted) values (@User_login, @Description, 'N')", connection);
+                    cmd.Parameters.Add("@User_login", MainWindow.CurrentUser);
+                    cmd.Parameters.Add("@Description", plan.descriptionTextBox.Text);
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+
+                    plansListBox.Items.Add(plan.descriptionTextBox.Text);
+                }
+                else
+                    MessageBox.Show("Description can't be empty or written in Russian (Write in English)", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
+
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {

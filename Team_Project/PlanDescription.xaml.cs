@@ -23,5 +23,10 @@ namespace Team_Project
         {
             InitializeComponent();
         }
+
+        private void okDescriptionButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
