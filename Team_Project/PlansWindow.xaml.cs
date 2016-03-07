@@ -59,6 +59,7 @@ namespace Team_Project
         {
             try
             {
+                plan.descriptionTextBox.Text = "";
                 plan.ShowDialog();
 
                 if (String.IsNullOrEmpty(plan.descriptionTextBox.Text) == false &&
