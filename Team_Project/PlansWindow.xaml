@@ -40,7 +40,7 @@
         </Grid.ColumnDefinitions>
         <Rectangle Grid.Column="0" Grid.RowSpan="5" Fill="#FFB42E"/>
         <Button Name="addButton" Content="Add" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center"  Height="35"/>
-        <Button Name="deleteButton" Content="Delete" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="35"/>
+        <Button Name="deleteButton" Content="Delete" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="35" Click="deleteButton_Click"/>
         <Button Name="editButton" Content="Edit" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="35"/>
         <Button Name="comlpetedButton" Content="Completed" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="35"/>
         <Button Name="exitButton" Content="Exit" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="35" 
