@@ -62,7 +62,7 @@
         <Button Name="exitButton" Content="Exit" Grid.Row="6" VerticalAlignment="Bottom" Height="35" 
                 Click="exitButton_Click"/>
         <Button Name="competedTasksButton" Content="Show completed tasks" Width="150" Grid.Column="1" Grid.Row="5" Background="White" Click="competedTasksButton_Click"/>
-        <Button Name="saveButton" Content="Save" Grid.Row="4" VerticalAlignment="Top" Height="35"/>
+        <Button Name="saveButton" Content="Save" Grid.Row="4" VerticalAlignment="Top" Height="35" Click="saveButton_Click"/>
 
         <Border Grid.Row="0" Grid.Column="1" BorderBrush="#FFB42E" BorderThickness="0,2,0,0" Margin="0,0,1,0">
             <TextBlock Text="Scheduled tasks" Grid.Row="0" Grid.Column="1" TextAlignment="Center" VerticalAlignment="Center"

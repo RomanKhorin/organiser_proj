@@ -72,7 +72,7 @@ namespace Team_Project
                         this.Close();
                     }
                     else
-                        MessageBox.Show("Invalid login or password", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Invalid login or password. Try again.", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                     MessageBox.Show("Check your login and password or sign up", "Error", MessageBoxButton.OK, MessageBoxImage.Information);

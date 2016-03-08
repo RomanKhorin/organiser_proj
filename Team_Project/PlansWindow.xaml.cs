@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,8 +24,6 @@ namespace Team_Project
     {
         SqlCommand cmd;
         PlanDescription plan;
-
-        public static string CurrentPlan { get; set; }
 
         public PlansWindow()
         {
@@ -57,7 +57,6 @@ namespace Team_Project
             try
             {
                 plan = new PlanDescription();
-                plan.descriptionTextBox.Text = "";
                 bool? result = plan.ShowDialog();
 
                 if (result.Value == true)
@@ -129,28 +128,30 @@ namespace Team_Project
                 if (plansListBox.SelectedItem != null)
                 {
                     plan = new PlanDescription();
-
                     plan.descriptionTextBox.Text = plansListBox.SelectedItem.ToString();
-                    plan.ShowDialog();
+                    bool? result = plan.ShowDialog();
 
-                    if (string.IsNullOrEmpty(plan.descriptionTextBox.Text) == false &&
-                        InputLanguageManager.Current.CurrentInputLanguage.Name == "en-US")
+                    if (result.Value == true)
                     {
-                        MainWindow.Connection.Open();
-                        cmd = new SqlCommand(@"update [Plan] set Description='" + plan.descriptionTextBox.Text + "' where Description like '" + plansListBox.SelectedItem + "'", MainWindow.Connection);
-                        cmd.ExecuteNonQuery();
+                        if (string.IsNullOrEmpty(plan.descriptionTextBox.Text) == false &&
+                            InputLanguageManager.Current.CurrentInputLanguage.Name == "en-US")
+                        {
+                            MainWindow.Connection.Open();
+                            cmd = new SqlCommand(@"update [Plan] set Description='" + plan.descriptionTextBox.Text + "' where Description like '" + plansListBox.SelectedItem + "'", MainWindow.Connection);
+                            cmd.ExecuteNonQuery();
 
-                        plansListBox.Items.Clear();
-                        var plans = new SqlCommand(("Select * from [Plan] where User_login like '" + MainWindow.CurrentUser + "' and IsCompleted='N'"), MainWindow.Connection);
-                        SqlDataReader reader = plans.ExecuteReader();
+                            plansListBox.Items.Clear();
+                            var plans = new SqlCommand(("Select * from [Plan] where User_login like '" + MainWindow.CurrentUser + "' and IsCompleted='N'"), MainWindow.Connection);
+                            SqlDataReader reader = plans.ExecuteReader();
 
-                        while (reader.Read())
-                            plansListBox.Items.Add(reader.GetString(1));
+                            while (reader.Read())
+                                plansListBox.Items.Add(reader.GetString(1));
 
-                        MainWindow.Connection.Close();
+                            MainWindow.Connection.Close();
+                        }
+                        else
+                            MessageBox.Show("The description field can't be empty or written in Russian!", "Description", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
-                    else
-                        MessageBox.Show("The description field can't be empty or written in Russian!", "Description", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                     MessageBox.Show("Select the plan you want to edit!", "Select the plan", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -219,6 +220,33 @@ namespace Team_Project
             catch (Exception except)
             {
                 MessageBox.Show(except.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        /// <summary>
+        /// Saves uncompleted plans to the text file after
+        /// pressing the "Save" button
+        /// </summary>
+        private void saveButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (plansListBox.Items.Count > 0)
+            {
+                SaveFileDialog saveFile = new SaveFileDialog();
+                saveFile.DefaultExt = ".txt";
+                saveFile.FileName = "Plan";
+                saveFile.Filter = "Document (.txt) | *txt";
+
+                bool? result = saveFile.ShowDialog();
+                if (result.Value)
+                {
+                    StreamWriter sw = new StreamWriter(new FileStream(saveFile.FileName, FileMode.Create));
+                    foreach (var item in plansListBox.Items)
+                    {
+                        sw.WriteLine("* " + item.ToString());
+                    }
+                    sw.Close();
+                    MessageBox.Show("Plans successfully saved!", "Saved", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             }
         }
     }

@@ -28,7 +28,7 @@ namespace Team_Project
 
         /// <summary>
         /// After pressing the "OK" buton adds user to the DataBase
-        /// so he could login
+        /// so he could sign in
         /// </summary>
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
@@ -66,7 +66,7 @@ namespace Team_Project
 
         /// <summary>
         /// After pressing the "Cancel" button
-        /// exits from the registration window
+        /// closes the registration window
         /// </summary>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
