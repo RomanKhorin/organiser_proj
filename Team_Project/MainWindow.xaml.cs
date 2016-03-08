@@ -58,20 +58,26 @@ namespace Team_Project
         {
             try
             {
-                plan_window = new PlansWindow();
-
-                connection.Open();
-                var validation = new SqlDataAdapter(("select count(*) from [User] where Login like '" + CurrentUser + "' " + "and Password like '" + passwordTextBox.Password.ToString() + "'"), connection);
-                DataTable dt = new DataTable();
-
-                validation.Fill(dt);
-                connection.Close();
-
-                if (dt.Rows[0][0].ToString() == "1")
+                if (String.IsNullOrEmpty(loginTextBox.Text) == false &&
+                    String.IsNullOrEmpty(passwordTextBox.Password.ToString()) == false)
                 {
-                    GetUncompletedTasks(connection);
-                    plan_window.Show();
-                    this.Close();
+                    plan_window = new PlansWindow();
+
+                    connection.Open();
+                    var validation = new SqlDataAdapter(("select count(*) from [User] where Login like '" + CurrentUser + "' " + "and Password like '" + passwordTextBox.Password.ToString() + "'"), connection);
+                    DataTable dt = new DataTable();
+
+                    validation.Fill(dt);
+                    connection.Close();
+
+                    if (dt.Rows[0][0].ToString() == "1")
+                    {
+                        GetUncompletedTasks(connection);
+                        plan_window.Show();
+                        this.Close();
+                    }
+                    else
+                        MessageBox.Show("Invalid login or password", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 else
                     MessageBox.Show("Check your login and password or sign up", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
