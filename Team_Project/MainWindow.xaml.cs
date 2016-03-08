@@ -32,6 +32,11 @@ namespace Team_Project
         {
             InitializeComponent();
             Connection = connection;
+            this.Closing += App_Closing;
+        }
+        private void App_Closing(object sender, EventArgs e)
+        {
+            Application.Current.Shutdown();
         }
 
         /// <summary>
