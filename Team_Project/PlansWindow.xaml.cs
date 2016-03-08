@@ -21,7 +21,7 @@ namespace Team_Project
     public partial class PlansWindow : Window
     {
         SqlCommand cmd;
-
+        PlanDescription plan;
         MainWindow main_window = new MainWindow();
         SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\Users\\Roma\\Documents\\Visual Studio 2013\\Projects\\Team_Project\\ODB\\ODB\\ODB.mdf;Integrated Security=True;Connect Timeout=30");
 
@@ -58,7 +58,7 @@ namespace Team_Project
         {
             try
             {
-                PlanDescription plan = new PlanDescription();
+                plan = new PlanDescription();
                 plan.descriptionTextBox.Text = "";
                 bool? result = plan.ShowDialog();
 
@@ -99,7 +99,7 @@ namespace Team_Project
             try
             {
                 if (plansListBox.SelectedItem == null)
-                    MessageBox.Show("Select the plan you want to be delete!", "Select the plan", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Select the plan you want to delete!", "Select the plan", MessageBoxButton.OK, MessageBoxImage.Information);
                 else
                 {
                     connection.Open();
@@ -109,6 +109,52 @@ namespace Team_Project
 
                     plansListBox.Items.Remove(plansListBox.SelectedItem);
                 }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception except)
+            {
+                MessageBox.Show(except.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        /// <summary>
+        /// Allows the user to edit the selected plan after pressing the "Edit" button,
+        /// if the start plan was written with mistakes
+        /// </summary>
+        private void editButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (plansListBox.SelectedItem != null)
+                {
+                    plan = new PlanDescription();
+
+                    plan.descriptionTextBox.Text = plansListBox.SelectedItem.ToString();
+                    plan.ShowDialog();
+
+                    if (string.IsNullOrEmpty(plan.descriptionTextBox.Text) == false &&
+                        InputLanguageManager.Current.CurrentInputLanguage.Name == "en-US")
+                    {
+                        connection.Open();
+                        cmd = new SqlCommand(@"update [Plan] set Description='" + plan.descriptionTextBox.Text + "' where Description like '" + plansListBox.SelectedItem.ToString() + "'", connection);
+                        cmd.ExecuteNonQuery();
+
+                        plansListBox.Items.Clear();
+                        var plans = new SqlCommand(("Select * from [Plan] where User_login like '" + MainWindow.CurrentUser + "' and IsCompleted='N'"), connection);
+                        SqlDataReader reader = plans.ExecuteReader();
+                        while (reader.Read())
+                            plansListBox.Items.Add(reader.GetString(1));
+
+                        connection.Close();
+                    }
+                    else
+                        MessageBox.Show("The description field can't be empty or written in Russian!", "Description", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                    MessageBox.Show("Select the plan you want to edit!", "Select the plan", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (SqlException ex)
             {
