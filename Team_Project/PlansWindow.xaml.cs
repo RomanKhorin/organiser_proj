@@ -22,8 +22,6 @@ namespace Team_Project
     {
         SqlCommand cmd;
         PlanDescription plan;
-        //SqlConnection connection = MainWindow.Connection;
-        SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\Users\\Roma\\Documents\\Visual Studio 2013\\Projects\\Team_Project\\ODB\\ODB\\ODB.mdf;Integrated Security=True;Connect Timeout=30");
 
         public static string CurrentPlan { get; set; }
 
@@ -67,12 +65,12 @@ namespace Team_Project
                     if (String.IsNullOrEmpty(plan.descriptionTextBox.Text) == false &&
                         InputLanguageManager.Current.CurrentInputLanguage.Name == "en-US")
                     {
-                        connection.Open();
-                        cmd = new SqlCommand("Insert into [Plan] (User_login, Description, IsCompleted) values (@User_login, @Description, 'N')", connection);
+                        MainWindow.Connection.Open();
+                        cmd = new SqlCommand("Insert into [Plan] (User_login, Description, IsCompleted) values (@User_login, @Description, 'N')", MainWindow.Connection);
                         cmd.Parameters.AddWithValue("@User_login", MainWindow.CurrentUser);
                         cmd.Parameters.AddWithValue("@Description", plan.descriptionTextBox.Text);
                         cmd.ExecuteNonQuery();
-                        connection.Close();
+                        MainWindow.Connection.Close();
 
                         plansListBox.Items.Add(plan.descriptionTextBox.Text);
                     }
@@ -102,10 +100,10 @@ namespace Team_Project
                     MessageBox.Show("Select the plan you want to delete!", "Select the plan", MessageBoxButton.OK, MessageBoxImage.Information);
                 else
                 {
-                    connection.Open();
-                    cmd = new SqlCommand(@"delete from [Plan] where Description like '" + plansListBox.SelectedItem + "'", connection);
+                    MainWindow.Connection.Open();
+                    cmd = new SqlCommand(@"delete from [Plan] where Description like '" + plansListBox.SelectedItem + "'", MainWindow.Connection);
                     cmd.ExecuteNonQuery();
-                    connection.Close();
+                    MainWindow.Connection.Close();
 
                     plansListBox.Items.Remove(plansListBox.SelectedItem);
                 }
@@ -138,18 +136,18 @@ namespace Team_Project
                     if (string.IsNullOrEmpty(plan.descriptionTextBox.Text) == false &&
                         InputLanguageManager.Current.CurrentInputLanguage.Name == "en-US")
                     {
-                        connection.Open();
-                        cmd = new SqlCommand(@"update [Plan] set Description='" + plan.descriptionTextBox.Text + "' where Description like '" + plansListBox.SelectedItem + "'", connection);
+                        MainWindow.Connection.Open();
+                        cmd = new SqlCommand(@"update [Plan] set Description='" + plan.descriptionTextBox.Text + "' where Description like '" + plansListBox.SelectedItem + "'", MainWindow.Connection);
                         cmd.ExecuteNonQuery();
 
                         plansListBox.Items.Clear();
-                        var plans = new SqlCommand(("Select * from [Plan] where User_login like '" + MainWindow.CurrentUser + "' and IsCompleted='N'"), connection);
+                        var plans = new SqlCommand(("Select * from [Plan] where User_login like '" + MainWindow.CurrentUser + "' and IsCompleted='N'"), MainWindow.Connection);
                         SqlDataReader reader = plans.ExecuteReader();
 
                         while (reader.Read())
                             plansListBox.Items.Add(reader.GetString(1));
 
-                        connection.Close();
+                        MainWindow.Connection.Close();
                     }
                     else
                         MessageBox.Show("The description field can't be empty or written in Russian!", "Description", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -167,16 +165,20 @@ namespace Team_Project
             }
         }
 
+        /// <summary>
+        /// Marks the selected task as completed after
+        /// pressing the "Completed" button
+        /// </summary>
         private void comlpetedButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 if (plansListBox.SelectedItem != null)
                 {
-                    connection.Open();
-                    cmd = new SqlCommand(@"update [Plan] set IsCompleted='Y' where Description like '" + plansListBox.SelectedItem + "'", connection);
+                    MainWindow.Connection.Open();
+                    cmd = new SqlCommand(@"update [Plan] set IsCompleted='Y' where Description like '" + plansListBox.SelectedItem + "'", MainWindow.Connection);
                     cmd.ExecuteNonQuery();
-                    connection.Close();
+                    MainWindow.Connection.Close();
 
                     plansListBox.Items.Remove(plansListBox.SelectedItem);
                 }
@@ -202,13 +204,13 @@ namespace Team_Project
             try
             {
                 completedTasksListBox.Items.Clear();
-                connection.Open();
-                var plans = new SqlCommand(("Select * from [Plan] where User_login like '" + MainWindow.CurrentUser + "' and IsCompleted='Y'"), connection);
+                MainWindow.Connection.Open();
+                var plans = new SqlCommand(("Select * from [Plan] where User_login like '" + MainWindow.CurrentUser + "' and IsCompleted='Y'"), MainWindow.Connection);
                 SqlDataReader reader = plans.ExecuteReader();
                 while (reader.Read())
                     completedTasksListBox.Items.Add(reader.GetString(1));
 
-                connection.Close();
+                MainWindow.Connection.Close();
             }
             catch (SqlException ex)
             {

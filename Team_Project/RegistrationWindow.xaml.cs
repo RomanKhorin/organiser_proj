@@ -39,16 +39,15 @@ namespace Team_Project
                         birthDatePicker.SelectedDate.HasValue &&
                             InputLanguageManager.Current.CurrentInputLanguage.Name == "en-US")
                 {
-                    SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\Users\\Roma\\Documents\\Visual Studio 2013\\Projects\\Team_Project\\ODB\\ODB\\ODB.mdf;Integrated Security=True;Connect Timeout=30");
-                    connection.Open();
-                    SqlCommand cmd = new SqlCommand("Insert into [User] (Login, Password, Name, Surname, Date_of_birth) values (@Login, @Password, @Name, @Surname, @Date_of_birth)", connection);
+                    MainWindow.Connection.Open();
+                    SqlCommand cmd = new SqlCommand("Insert into [User] (Login, Password, Name, Surname, Date_of_birth) values (@Login, @Password, @Name, @Surname, @Date_of_birth)", MainWindow.Connection);
                     cmd.Parameters.AddWithValue("@Login", loginTextBox.Text);
                     cmd.Parameters.AddWithValue("@Password", passwordTextBox.Text);
                     cmd.Parameters.AddWithValue("@Name", nameTextBox.Text);
                     cmd.Parameters.AddWithValue("@Surname", surnameTextBox.Text);
                     cmd.Parameters.AddWithValue("@Date_of_birth", birthDatePicker.SelectedDate);
                     cmd.ExecuteNonQuery();
-                    connection.Close();
+                    MainWindow.Connection.Close();
 
                     this.Close();
                 }
