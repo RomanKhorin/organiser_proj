@@ -41,7 +41,7 @@
         <TextBox TextWrapping="Wrap" MaxLength="140" Name="descriptionTextBox" Grid.Row="0" Grid.ColumnSpan="2" FontFamily="Calibry" FontSize="13" BorderThickness="0,0,0,1" BorderBrush="#FFFFB42E"/>
         
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Choose deadline:" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibry" FontSize="14"/>
-        <DatePicker Grid.Row="1" Grid.Column="1" Height="25" VerticalAlignment="Center" BorderThickness="1" 
+        <DatePicker Name="DeadLine_datepicker" Grid.Row="1" Grid.Column="1" Height="25" VerticalAlignment="Center" BorderThickness="1" 
                     FirstDayOfWeek="Monday" DisplayDate="2016-01-03" IsTodayHighlighted="True" FontSize="13" FontFamily="Calibry" Margin="20,0"/>
         
         <Rectangle Grid.Row="2" Grid.ColumnSpan="2" Fill="#FFB42E"/>

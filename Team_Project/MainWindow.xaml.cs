@@ -100,8 +100,8 @@ namespace Team_Project
                 SqlDataReader reader = plans.ExecuteReader();
 
                 while (reader.Read())
-                    plan_window.plansListBox.Items.Add(reader.GetString(1));
-                
+                    plan_window.plansListBox.Items.Add(reader.GetString(1) + ": (Till " + reader.GetDateTime(3).ToShortDateString() + ")");
+
                 connection.Close();
             }
             catch (SqlException ex)

@@ -57,21 +57,24 @@ namespace Team_Project
             try
             {
                 plan = new PlanDescription();
+                plan.DeadLine_datepicker.SelectedDate = DateTime.Today;
                 bool? result = plan.ShowDialog();
 
                 if (result.Value == true)
                 {
                     if (String.IsNullOrEmpty(plan.descriptionTextBox.Text) == false &&
-                        InputLanguageManager.Current.CurrentInputLanguage.Name == "en-US")
+                            plan.DeadLine_datepicker.SelectedDate != null &&
+                                InputLanguageManager.Current.CurrentInputLanguage.Name == "en-US")
                     {
                         MainWindow.Connection.Open();
-                        cmd = new SqlCommand("Insert into [Plan] (User_login, Description, IsCompleted) values (@User_login, @Description, 'N')", MainWindow.Connection);
+                        cmd = new SqlCommand("Insert into [Plan] (User_login, Description, IsCompleted, DeadLine) values (@User_login, @Description, 'N', @DeadLine)", MainWindow.Connection);
                         cmd.Parameters.AddWithValue("@User_login", MainWindow.CurrentUser);
                         cmd.Parameters.AddWithValue("@Description", plan.descriptionTextBox.Text);
+                        cmd.Parameters.AddWithValue("@DeadLine", plan.DeadLine_datepicker.SelectedDate);
                         cmd.ExecuteNonQuery();
                         MainWindow.Connection.Close();
 
-                        plansListBox.Items.Add(plan.descriptionTextBox.Text);
+                        plansListBox.Items.Add(plan.descriptionTextBox.Text + ": (Till " + plan.DeadLine_datepicker.SelectedDate.Value.ToShortDateString() + ")");
                     }
                     else
                         MessageBox.Show("Description can't be empty or written in Russian (Write in English)", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -100,7 +103,7 @@ namespace Team_Project
                 else
                 {
                     MainWindow.Connection.Open();
-                    cmd = new SqlCommand(@"delete from [Plan] where Description like '" + plansListBox.SelectedItem + "'", MainWindow.Connection);
+                    cmd = new SqlCommand(@"delete from [Plan] where Description like '" + (plansListBox.SelectedItem.ToString().Split(':')[0]) + "'", MainWindow.Connection);
                     cmd.ExecuteNonQuery();
                     MainWindow.Connection.Close();
 
@@ -129,12 +132,14 @@ namespace Team_Project
                 {
                     plan = new PlanDescription();
                     plan.descriptionTextBox.Text = plansListBox.SelectedItem.ToString();
+                    plan.DeadLine_datepicker.SelectedDate = DateTime.Today;
+
                     bool? result = plan.ShowDialog();
 
                     if (result.Value == true)
                     {
                         if (string.IsNullOrEmpty(plan.descriptionTextBox.Text) == false &&
-                            InputLanguageManager.Current.CurrentInputLanguage.Name == "en-US")
+                                InputLanguageManager.Current.CurrentInputLanguage.Name == "en-US")
                         {
                             MainWindow.Connection.Open();
                             cmd = new SqlCommand(@"update [Plan] set Description='" + plan.descriptionTextBox.Text + "' where Description like '" + plansListBox.SelectedItem + "'", MainWindow.Connection);
@@ -145,7 +150,7 @@ namespace Team_Project
                             SqlDataReader reader = plans.ExecuteReader();
 
                             while (reader.Read())
-                                plansListBox.Items.Add(reader.GetString(1));
+                                plansListBox.Items.Add(reader.GetString(1) + ": (Till " + reader.GetDateTime(3).ToShortDateString() + ")");
 
                             MainWindow.Connection.Close();
                         }
@@ -177,7 +182,7 @@ namespace Team_Project
                 if (plansListBox.SelectedItem != null)
                 {
                     MainWindow.Connection.Open();
-                    cmd = new SqlCommand(@"update [Plan] set IsCompleted='Y' where Description like '" + plansListBox.SelectedItem + "'", MainWindow.Connection);
+                    cmd = new SqlCommand(@"update [Plan] set IsCompleted='Y' where Description like '" + plansListBox.SelectedItem.ToString().Split(':')[0] + "'", MainWindow.Connection);
                     cmd.ExecuteNonQuery();
                     MainWindow.Connection.Close();
 
@@ -209,7 +214,7 @@ namespace Team_Project
                 var plans = new SqlCommand(("Select * from [Plan] where User_login like '" + MainWindow.CurrentUser + "' and IsCompleted='Y'"), MainWindow.Connection);
                 SqlDataReader reader = plans.ExecuteReader();
                 while (reader.Read())
-                    completedTasksListBox.Items.Add(reader.GetString(1));
+                    completedTasksListBox.Items.Add(reader.GetString(1) + ": (" + reader.GetDateTime(3).ToShortDateString() + ")");
 
                 MainWindow.Connection.Close();
             }
