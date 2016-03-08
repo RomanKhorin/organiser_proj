@@ -22,7 +22,7 @@ namespace Team_Project
     {
         SqlCommand cmd;
         PlanDescription plan;
-        MainWindow main_window = new MainWindow();
+        //SqlConnection connection = MainWindow.Connection;
         SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\Users\\Roma\\Documents\\Visual Studio 2013\\Projects\\Team_Project\\ODB\\ODB\\ODB.mdf;Integrated Security=True;Connect Timeout=30");
 
         public static string CurrentPlan { get; set; }
@@ -121,8 +121,8 @@ namespace Team_Project
         }
 
         /// <summary>
-        /// Allows the user to edit the selected plan after pressing the "Edit" button,
-        /// if the start plan was written with mistakes
+        /// Allows the user to edit the selected plan after pressing 
+        /// the "Edit" button,
         /// </summary>
         private void editButton_Click(object sender, RoutedEventArgs e)
         {
@@ -139,12 +139,13 @@ namespace Team_Project
                         InputLanguageManager.Current.CurrentInputLanguage.Name == "en-US")
                     {
                         connection.Open();
-                        cmd = new SqlCommand(@"update [Plan] set Description='" + plan.descriptionTextBox.Text + "' where Description like '" + plansListBox.SelectedItem.ToString() + "'", connection);
+                        cmd = new SqlCommand(@"update [Plan] set Description='" + plan.descriptionTextBox.Text + "' where Description like '" + plansListBox.SelectedItem + "'", connection);
                         cmd.ExecuteNonQuery();
 
                         plansListBox.Items.Clear();
                         var plans = new SqlCommand(("Select * from [Plan] where User_login like '" + MainWindow.CurrentUser + "' and IsCompleted='N'"), connection);
                         SqlDataReader reader = plans.ExecuteReader();
+
                         while (reader.Read())
                             plansListBox.Items.Add(reader.GetString(1));
 
@@ -155,6 +156,59 @@ namespace Team_Project
                 }
                 else
                     MessageBox.Show("Select the plan you want to edit!", "Select the plan", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception except)
+            {
+                MessageBox.Show(except.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void comlpetedButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (plansListBox.SelectedItem != null)
+                {
+                    connection.Open();
+                    cmd = new SqlCommand(@"update [Plan] set IsCompleted='Y' where Description like '" + plansListBox.SelectedItem + "'", connection);
+                    cmd.ExecuteNonQuery();
+                    connection.Close();
+
+                    plansListBox.Items.Remove(plansListBox.SelectedItem);
+                }
+                else
+                    MessageBox.Show("Select the plan you want to be completed!", "Select the plan", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception except)
+            {
+                MessageBox.Show(except.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        /// <summary>
+        /// Shows completed tasks after pressing
+        /// the "Show completed tasks" button
+        /// </summary>
+        private void competedTasksButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                completedTasksListBox.Items.Clear();
+                connection.Open();
+                var plans = new SqlCommand(("Select * from [Plan] where User_login like '" + MainWindow.CurrentUser + "' and IsCompleted='Y'"), connection);
+                SqlDataReader reader = plans.ExecuteReader();
+                while (reader.Read())
+                    completedTasksListBox.Items.Add(reader.GetString(1));
+
+                connection.Close();
             }
             catch (SqlException ex)
             {

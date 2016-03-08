@@ -53,7 +53,7 @@ namespace Team_Project
                     this.Close();
                 }
                 else
-                    MessageBox.Show("All the fields must be filled in (in English)!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("All the fields must be filled in (in English)!", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (SqlException ex)
             {

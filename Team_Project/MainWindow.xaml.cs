@@ -26,10 +26,12 @@ namespace Team_Project
         SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\Users\\Roma\\Documents\\Visual Studio 2013\\Projects\\Team_Project\\ODB\\ODB\\ODB.mdf;Integrated Security=True;Connect Timeout=30");
 
         public static string CurrentUser { get; set; }
+        public static SqlConnection Connection { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
+            Connection = connection;
         }
 
         /// <summary>
@@ -67,7 +69,7 @@ namespace Team_Project
                     this.Close();
                 }
                 else
-                    MessageBox.Show("Check your login and password or sign up", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Check your login and password or sign up", "Error", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (SqlException ex)
             {
@@ -92,11 +94,8 @@ namespace Team_Project
                 SqlDataReader reader = plans.ExecuteReader();
 
                 while (reader.Read())
-                {
-                    string plan = reader.GetString(1);
-                    plan_window.plansListBox.Items.Add(plan);
-                }
-
+                    plan_window.plansListBox.Items.Add(reader.GetString(1));
+                
                 connection.Close();
             }
             catch (SqlException ex)

@@ -58,10 +58,10 @@
         <Button Name="addButton" Content="Add" Grid.Row="0" Click="addButton_Click"/>
         <Button Name="deleteButton" Content="Delete" Grid.Row="1" Click="deleteButton_Click"/>
         <Button Name="editButton" Content="Edit" Grid.Row="2" Click="editButton_Click"/>
-        <Button Name="comlpetedButton" Content="Completed" Grid.Row="3"/>
+        <Button Name="comlpetedButton" Content="Completed" Grid.Row="3" Click="comlpetedButton_Click"/>
         <Button Name="exitButton" Content="Exit" Grid.Row="6" VerticalAlignment="Bottom" Height="35" 
                 Click="exitButton_Click"/>
-        <Button Name="competedTasksButton" Content="Show completed tasks" Width="150" Grid.Column="1" Grid.Row="5" Background="White"/>
+        <Button Name="competedTasksButton" Content="Show completed tasks" Width="150" Grid.Column="1" Grid.Row="5" Background="White" Click="competedTasksButton_Click"/>
 
         <Border Grid.Row="0" Grid.Column="1" BorderBrush="#FFB42E" BorderThickness="0,2,0,0" Margin="0,0,1,0">
             <TextBlock Text="Scheduled tasks" Grid.Row="0" Grid.Column="1" TextAlignment="Center" VerticalAlignment="Center"
