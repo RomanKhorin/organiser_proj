@@ -29,7 +29,7 @@ namespace Team_Project
         /// </summary>
         private void okDescriptionButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Visibility = Visibility.Hidden;
+            DialogResult = true;
         }
     }
 }
