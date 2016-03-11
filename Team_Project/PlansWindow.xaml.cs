@@ -83,6 +83,7 @@ namespace Team_Project
             catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow.Connection.Close();
             }
             catch (Exception except)
             {
@@ -113,6 +114,7 @@ namespace Team_Project
             catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow.Connection.Close();
             }
             catch (Exception except)
             {
@@ -142,7 +144,9 @@ namespace Team_Project
                                 InputLanguageManager.Current.CurrentInputLanguage.Name == "en-US")
                         {
                             MainWindow.Connection.Open();
-                            cmd = new SqlCommand(@"update [Plan] set Description='" + plan.descriptionTextBox.Text + "' where Description like '" + plansListBox.SelectedItem.ToString().Split(':')[0] + "'", MainWindow.Connection);
+                            cmd = new SqlCommand(@"update [Plan] set Description='" + plan.descriptionTextBox.Text+"', "
+                                + "DeadLine='" + plan.DeadLine_datepicker.SelectedDate + "' "
+                                    + "where Description like '" + plansListBox.SelectedItem.ToString().Split(':')[0] + "'", MainWindow.Connection);
                             cmd.ExecuteNonQuery();
                             MainWindow.Connection.Close();
 
@@ -159,6 +163,7 @@ namespace Team_Project
             catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow.Connection.Close();
             }
             catch (Exception except)
             {
@@ -210,6 +215,7 @@ namespace Team_Project
             catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow.Connection.Close();
             }
             catch (Exception except)
             {
