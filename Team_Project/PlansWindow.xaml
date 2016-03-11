@@ -27,7 +27,15 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+
+        <Style TargetType="ToolTip">
+            <Setter Property="FontFamily" Value="Calibry"/>
+            <Setter Property="BorderBrush" Value="#FFB42E"/>
+            <Setter Property="Background" Value="#FFB42E"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="HasDropShadow" Value="False"/>
+        </Style>
+
         <Style TargetType="ListBox">
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
@@ -68,7 +76,7 @@
             <TextBlock Text="Scheduled tasks" Grid.Row="0" Grid.Column="1" TextAlignment="Center" VerticalAlignment="Center"
                        FontSize="14" FontFamily="Calibry"/>
         </Border>
-        
+
         <ListBox x:Name="plansListBox" Grid.Row="1" Grid.RowSpan="4" BorderThickness="0,2"/>
         <ListBox x:Name="completedTasksListBox" Grid.Row="6" BorderThickness="0,2,0,0"/>
     </Grid>

@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Team_Project.PlanDescription"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Description" MinHeight="200" MinWidth="200" Height="300" Width="300">
+        Title="Description" MinHeight="200" MinWidth="200" MaxHeight="400" MaxWidth="400" Height="300" Width="300">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Control.Background" Value="#FFB42E"/>
@@ -38,7 +38,14 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBox TextWrapping="Wrap" MaxLength="140" Name="descriptionTextBox" Grid.Row="0" Grid.ColumnSpan="2" FontFamily="Calibry" FontSize="13" BorderThickness="0,0,0,1" BorderBrush="#FFFFB42E"/>
+        <TextBox Name="descriptionTextBox" TextWrapping="Wrap" MaxLength="140" Grid.Row="0" Grid.ColumnSpan="2" FontFamily="Calibry" 
+                 FontSize="13" BorderThickness="0,0,0,1" BorderBrush="#FFFFB42E">
+            <TextBox.ToolTip>
+                <ToolTip BorderBrush="#FFB42E" Background="#FFB42E" Foreground="Black" FontFamily="Calibry" HasDropShadow="False">
+                    <TextBlock Text="Write login in English, no more than 140 symbols"/>
+                </ToolTip>
+            </TextBox.ToolTip>
+        </TextBox>
         
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Choose deadline:" TextAlignment="Center" VerticalAlignment="Center" FontFamily="Calibry" FontSize="14"/>
         <DatePicker Name="DeadLine_datepicker" Grid.Row="1" Grid.Column="1" Height="25" VerticalAlignment="Center" BorderThickness="1" 
