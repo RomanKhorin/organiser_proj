@@ -80,6 +80,7 @@ namespace Team_Project
             catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                connection.Close();
             }
             catch (Exception except)
             {
@@ -107,6 +108,7 @@ namespace Team_Project
             catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                connection.Close();
             }
             catch (Exception except)
             {
