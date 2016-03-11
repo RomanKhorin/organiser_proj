@@ -67,7 +67,7 @@ namespace Team_Project
 
                     if (dt.Rows[0][0].ToString() == "1")
                     {
-                        GetUncompletedTasks(connection);
+                        GetTasks(connection, plan_window.plansListBox, "N");
                         plan_window.Show();
                         this.Close();
                     }
@@ -91,16 +91,16 @@ namespace Team_Project
         /// Queries the DataBase, gets the uncompleted user's tasks
         /// and adds them to the plans listbox
         /// </summary>
-        public void GetUncompletedTasks(SqlConnection connection)
+        public static void GetTasks(SqlConnection connection, ListBox listbox, string status)
         {
             try
             {
                 connection.Open();
-                var plans = new SqlCommand(("Select * from [Plan] where User_login like '" + CurrentUser + "' and IsCompleted='N'"), connection);
+                var plans = new SqlCommand(("Select * from [Plan] where User_login like '" + CurrentUser + "' and IsCompleted like '" + status + "'"), connection);
                 SqlDataReader reader = plans.ExecuteReader();
 
                 while (reader.Read())
-                    plan_window.plansListBox.Items.Add(reader.GetString(1) + ": (Till " + reader.GetDateTime(3).ToShortDateString() + ")");
+                    listbox.Items.Add(reader.GetString(1) + ": (Till " + reader.GetDateTime(3).ToShortDateString() + ")");
 
                 connection.Close();
             }

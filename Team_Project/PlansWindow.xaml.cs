@@ -131,7 +131,7 @@ namespace Team_Project
                 if (plansListBox.SelectedItem != null)
                 {
                     plan = new PlanDescription();
-                    plan.descriptionTextBox.Text = plansListBox.SelectedItem.ToString();
+                    plan.descriptionTextBox.Text = plansListBox.SelectedItem.ToString().Split(':')[0];
                     plan.DeadLine_datepicker.SelectedDate = DateTime.Today;
 
                     bool? result = plan.ShowDialog();
@@ -142,17 +142,12 @@ namespace Team_Project
                                 InputLanguageManager.Current.CurrentInputLanguage.Name == "en-US")
                         {
                             MainWindow.Connection.Open();
-                            cmd = new SqlCommand(@"update [Plan] set Description='" + plan.descriptionTextBox.Text + "' where Description like '" + plansListBox.SelectedItem + "'", MainWindow.Connection);
+                            cmd = new SqlCommand(@"update [Plan] set Description='" + plan.descriptionTextBox.Text + "' where Description like '" + plansListBox.SelectedItem.ToString().Split(':')[0] + "'", MainWindow.Connection);
                             cmd.ExecuteNonQuery();
+                            MainWindow.Connection.Close();
 
                             plansListBox.Items.Clear();
-                            var plans = new SqlCommand(("Select * from [Plan] where User_login like '" + MainWindow.CurrentUser + "' and IsCompleted='N'"), MainWindow.Connection);
-                            SqlDataReader reader = plans.ExecuteReader();
-
-                            while (reader.Read())
-                                plansListBox.Items.Add(reader.GetString(1) + ": (Till " + reader.GetDateTime(3).ToShortDateString() + ")");
-
-                            MainWindow.Connection.Close();
+                            MainWindow.GetTasks(MainWindow.Connection, plansListBox, "N");
                         }
                         else
                             MessageBox.Show("The description field can't be empty or written in Russian!", "Description", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -210,13 +205,7 @@ namespace Team_Project
             try
             {
                 completedTasksListBox.Items.Clear();
-                MainWindow.Connection.Open();
-                var plans = new SqlCommand(("Select * from [Plan] where User_login like '" + MainWindow.CurrentUser + "' and IsCompleted='Y'"), MainWindow.Connection);
-                SqlDataReader reader = plans.ExecuteReader();
-                while (reader.Read())
-                    completedTasksListBox.Items.Add(reader.GetString(1) + ": (" + reader.GetDateTime(3).ToShortDateString() + ")");
-
-                MainWindow.Connection.Close();
+                MainWindow.GetTasks(MainWindow.Connection, completedTasksListBox, "Y");
             }
             catch (SqlException ex)
             {
