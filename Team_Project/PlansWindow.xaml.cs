@@ -249,13 +249,5 @@ namespace Team_Project
                 }
             }
         }
-
-        private void AddToolTip(ListBoxItem item, DateTime deadline)
-        {
-            ToolTip tp = new ToolTip();
-            tp.Content = deadline.ToShortDateString();
-            item.ToolTip = tp;
-            
-        }
     }
 }

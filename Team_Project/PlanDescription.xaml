@@ -42,7 +42,7 @@
                  FontSize="13" BorderThickness="0,0,0,1" BorderBrush="#FFFFB42E">
             <TextBox.ToolTip>
                 <ToolTip BorderBrush="#FFB42E" Background="#FFB42E" Foreground="Black" FontFamily="Calibry" HasDropShadow="False">
-                    <TextBlock Text="Write login in English, no more than 140 symbols"/>
+                    <TextBlock Text="Write in English, no more than 140 symbols"/>
                 </ToolTip>
             </TextBox.ToolTip>
         </TextBox>
