@@ -108,6 +108,7 @@ namespace Team_Project
         {
             try
             {
+                listbox.Items.Clear();
                 connection.Open();
                 var plans = new SqlCommand(("Select * from [Plan] where User_login like '" + CurrentUser + "' and IsCompleted like '" + status + "'"), connection);
                 SqlDataReader reader = plans.ExecuteReader();

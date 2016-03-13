@@ -77,10 +77,11 @@ namespace Team_Project
                                 InputLanguageManager.Current.CurrentInputLanguage.Name == "en-US")
                     {
                         MainWindow.Connection.Open();
-                        cmd = new SqlCommand("Insert into [Plan] (User_login, Description, IsCompleted, DeadLine) values (@User_login, @Description, 'N', @DeadLine)", MainWindow.Connection);
+                        cmd = new SqlCommand("Insert into [Plan] (User_login, Description, IsCompleted, DeadLine, Date) values (@User_login, @Description, 'N', @DeadLine, @Date)", MainWindow.Connection);
                         cmd.Parameters.AddWithValue("@User_login", MainWindow.CurrentUser);
                         cmd.Parameters.AddWithValue("@Description", plan.descriptionTextBox.Text);
                         cmd.Parameters.AddWithValue("@DeadLine", plan.DeadLine_datepicker.SelectedDate);
+                        cmd.Parameters.AddWithValue("@Date", DateTime.Now);
                         cmd.ExecuteNonQuery();
                         MainWindow.Connection.Close();
 
@@ -119,7 +120,8 @@ namespace Team_Project
                     cmd.ExecuteNonQuery();
                     MainWindow.Connection.Close();
 
-                    plansListBox.Items.Remove(plansListBox.SelectedItem);
+                    MainWindow.GetTasks(MainWindow.Connection, plansListBox, "N");
+
                 }
             }
             catch (SqlException ex)
@@ -146,7 +148,7 @@ namespace Team_Project
                 {
                     plan = new PlanDescription();
                     plan.descriptionTextBox.Text = plansListBox.SelectedItem.ToString().Split(':')[0];
-                    plan.DeadLine_datepicker.SelectedDate = GetDate(MainWindow.Connection, plansListBox.SelectedItem.ToString().Split(':')[0]);
+                    plan.DeadLine_datepicker.SelectedDate = GetDeadLineDate(MainWindow.Connection, plansListBox.SelectedItem.ToString().Split(':')[0]);
 
                     bool? result = plan.ShowDialog();
 
@@ -199,7 +201,7 @@ namespace Team_Project
                     cmd.ExecuteNonQuery();
                     MainWindow.Connection.Close();
 
-                    plansListBox.Items.Remove(plansListBox.SelectedItem);
+                    MainWindow.GetTasks(MainWindow.Connection, plansListBox, "N");
                 }
                 else
                     MessageBox.Show("Select the plan you want to be completed!", "Select the plan", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -277,7 +279,7 @@ namespace Team_Project
         /// <summary>
         /// Gets the deadline date for selected plan in plans listbox
         /// </summary>
-        private DateTime GetDate(SqlConnection connection, string description)
+        private DateTime GetDeadLineDate(SqlConnection connection, string description)
         {
             DateTime deadline = new DateTime();
             try
