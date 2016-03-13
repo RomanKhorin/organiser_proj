@@ -32,6 +32,9 @@ namespace Team_Project
         /// </summary>
         PlanDescription plan;
 
+        /// <summary>
+        /// Constructor for the PlanWindow class
+        /// </summary>
         public PlansWindow()
         {
             InitializeComponent();
@@ -95,6 +98,7 @@ namespace Team_Project
             catch (Exception except)
             {
                 MessageBox.Show(except.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow.Connection.Close();
             }
         }
 
@@ -126,6 +130,7 @@ namespace Team_Project
             catch (Exception except)
             {
                 MessageBox.Show(except.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow.Connection.Close();
             }
         }
 
@@ -151,7 +156,7 @@ namespace Team_Project
                                 InputLanguageManager.Current.CurrentInputLanguage.Name == "en-US")
                         {
                             MainWindow.Connection.Open();
-                            cmd = new SqlCommand(@"update [Plan] set Description='" + plan.descriptionTextBox.Text+"', "
+                            cmd = new SqlCommand(@"update [Plan] set Description='" + plan.descriptionTextBox.Text + "', "
                                 + "DeadLine='" + plan.DeadLine_datepicker.SelectedDate + "' "
                                     + "where Description like '" + plansListBox.SelectedItem.ToString().Split(':')[0] + "'", MainWindow.Connection);
                             cmd.ExecuteNonQuery();
@@ -175,6 +180,7 @@ namespace Team_Project
             catch (Exception except)
             {
                 MessageBox.Show(except.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow.Connection.Close();
             }
         }
 
@@ -205,6 +211,7 @@ namespace Team_Project
             catch (Exception except)
             {
                 MessageBox.Show(except.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow.Connection.Close();
             }
         }
 
@@ -227,6 +234,7 @@ namespace Team_Project
             catch (Exception except)
             {
                 MessageBox.Show(except.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow.Connection.Close();
             }
         }
 
@@ -236,27 +244,34 @@ namespace Team_Project
         /// </summary>
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (plansListBox.Items.Count > 0)
+            try
             {
-                SaveFileDialog saveFile = new SaveFileDialog();
-                saveFile.DefaultExt = ".txt";
-                saveFile.FileName = "Plan";
-                saveFile.Filter = "Document (.txt) | *txt";
-
-                bool? result = saveFile.ShowDialog();
-                if (result.Value)
+                if (plansListBox.Items.Count > 0)
                 {
-                    StreamWriter sw = new StreamWriter(new FileStream(saveFile.FileName, FileMode.Create));
-                    foreach (var item in plansListBox.Items)
+                    SaveFileDialog saveFile = new SaveFileDialog();
+                    saveFile.DefaultExt = ".txt";
+                    saveFile.FileName = "Plan";
+                    saveFile.Filter = "Document (.txt) | *txt";
+
+                    bool? result = saveFile.ShowDialog();
+                    if (result.Value)
                     {
-                        sw.WriteLine("* " + item.ToString());
+                        StreamWriter sw = new StreamWriter(new FileStream(saveFile.FileName, FileMode.Create));
+                        foreach (var item in plansListBox.Items)
+                        {
+                            sw.WriteLine("* " + item.ToString());
+                        }
+                        sw.Close();
+                        MessageBox.Show("Plans successfully saved!", "Saved", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
-                    sw.Close();
-                    MessageBox.Show("Plans successfully saved!", "Saved", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
+                else
+                    MessageBox.Show("You can not save empty plan list!", "Empty plan list", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            else
-                MessageBox.Show("You can not save empty plan list!", "Empty plan list", MessageBoxButton.OK, MessageBoxImage.Information);
+            catch (Exception except)
+            {
+                MessageBox.Show(except.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         /// <summary>
@@ -265,13 +280,26 @@ namespace Team_Project
         private DateTime GetDate(SqlConnection connection, string description)
         {
             DateTime deadline = new DateTime();
-            connection.Open();
-            var time = new SqlCommand(("Select DeadLine from [Plan] where User_login like '" + MainWindow.CurrentUser + "'and Description like '"+ description+"' and IsCompleted like 'N'"), connection);
-            SqlDataReader reader = time.ExecuteReader();
+            try
+            {
+                connection.Open();
+                var time = new SqlCommand(("Select DeadLine from [Plan] where User_login like '" + MainWindow.CurrentUser + "'and Description like '" + description + "' and IsCompleted like 'N'"), connection);
+                SqlDataReader reader = time.ExecuteReader();
 
-            while (reader.Read())
-                deadline = reader.GetDateTime(0);
-            connection.Close();
+                while (reader.Read())
+                    deadline = reader.GetDateTime(0);
+                connection.Close();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow.Connection.Close();
+            }
+            catch (Exception except)
+            {
+                MessageBox.Show(except.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow.Connection.Close();
+            }
 
             return deadline;
         }

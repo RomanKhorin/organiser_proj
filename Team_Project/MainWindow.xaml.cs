@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,7 +27,7 @@ namespace Team_Project
         /// Instance of the PlanWindow class
         /// </summary>
         PlansWindow plan_window;
-        SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\Users\\Roma\\Documents\\Visual Studio 2013\\Projects\\Team_Project\\ODB\\ODB\\ODB.mdf;Integrated Security=True;Connect Timeout=30");
+        private SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\Users\\" + WindowsIdentity.GetCurrent().Name.Split('\\')[1] + "\\Documents\\Visual Studio 2013\\Projects\\Team_Project\\ODB\\ODB\\ODB.mdf;Integrated Security=True;Connect Timeout=30");
 
         /// <summary>
         /// Current User in application
@@ -95,6 +96,7 @@ namespace Team_Project
             catch (Exception except)
             {
                 MessageBox.Show(except.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                connection.Close();
             }
         }
 
@@ -123,6 +125,7 @@ namespace Team_Project
             catch (Exception except)
             {
                 MessageBox.Show(except.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                connection.Close();
             }
         }
 
