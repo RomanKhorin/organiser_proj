@@ -1,4 +1,5 @@
 ﻿<Window Closing="App_Closing" x:Class="Team_Project.PlansWindow"
+        Icon="icon.ico"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Plans" MinHeight="300" MinWidth="500" Height="380" Width="570"
