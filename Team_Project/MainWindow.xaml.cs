@@ -22,10 +22,24 @@ namespace Team_Project
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Instance of the PlanWindow class
+        /// </summary>
         PlansWindow plan_window;
-        SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\Users\\Roma\\Documents\\Visual Studio 2013\\Projects\\Team_Project\\ODB\\ODB\\ODB.mdf;Integrated Security=True;Connect Timeout=30");
 
+        /// <summary>
+        /// SqlConnection string for connecting to DataBase
+        /// </summary>
+        private SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\Users\\Roma\\Documents\\Visual Studio 2013\\Projects\\Team_Project\\ODB\\ODB\\ODB.mdf;Integrated Security=True;Connect Timeout=30");
+
+        /// <summary>
+        /// Current User in application
+        /// </summary>
         public static string CurrentUser { get; set; }
+
+        /// <summary>
+        /// Current connection string to SQL DataBase
+        /// </summary>
         public static SqlConnection Connection { get; set; }
 
         public MainWindow()

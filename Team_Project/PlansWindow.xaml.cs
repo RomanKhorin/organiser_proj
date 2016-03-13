@@ -22,7 +22,14 @@ namespace Team_Project
     /// </summary>
     public partial class PlansWindow : Window
     {
+        /// <summary>
+        /// Instance of the SqlCommand class
+        /// </summary>
         SqlCommand cmd;
+
+        /// <summary>
+        /// Instance of the PlnaDescription class
+        /// </summary>
         PlanDescription plan;
 
         public PlansWindow()
@@ -134,7 +141,7 @@ namespace Team_Project
                 {
                     plan = new PlanDescription();
                     plan.descriptionTextBox.Text = plansListBox.SelectedItem.ToString().Split(':')[0];
-                    plan.DeadLine_datepicker.SelectedDate = DateTime.Today;
+                    plan.DeadLine_datepicker.SelectedDate = GetDate(MainWindow.Connection, plansListBox.SelectedItem.ToString().Split(':')[0]);
 
                     bool? result = plan.ShowDialog();
 
@@ -248,6 +255,25 @@ namespace Team_Project
                     MessageBox.Show("Plans successfully saved!", "Saved", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
+            else
+                MessageBox.Show("You can not save empty plan list!", "Empty plan list", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        /// <summary>
+        /// Gets the deadline date for selected plan in plans listbox
+        /// </summary>
+        private DateTime GetDate(SqlConnection connection, string description)
+        {
+            DateTime deadline = new DateTime();
+            connection.Open();
+            var time = new SqlCommand(("Select DeadLine from [Plan] where User_login like '" + MainWindow.CurrentUser + "'and Description like '"+ description+"' and IsCompleted like 'N'"), connection);
+            SqlDataReader reader = time.ExecuteReader();
+
+            while (reader.Read())
+                deadline = reader.GetDateTime(0);
+            connection.Close();
+
+            return deadline;
         }
     }
 }
