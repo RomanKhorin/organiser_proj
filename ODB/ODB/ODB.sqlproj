@@ -59,7 +59,7 @@
     <Folder Include="Properties" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="User_1.sql" />
-    <Build Include="Plan_1.sql" />
+    <Build Include="Plan_15_03_2016.sql" />
+    <Build Include="User_15_03_2016.sql" />
   </ItemGroup>
 </Project>
