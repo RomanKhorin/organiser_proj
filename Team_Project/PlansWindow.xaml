@@ -78,7 +78,7 @@
                        FontSize="14" FontFamily="Calibry"/>
         </Border>
 
-        <ListBox x:Name="plansListBox" Grid.Row="1" Grid.RowSpan="4" BorderThickness="0,2"/>
+        <ListBox x:Name="plansListBox" Grid.Row="1" Grid.RowSpan="4" BorderThickness="0,2" SelectionChanged="plansListBox_SelectionChanged"/>
         <ListBox x:Name="completedTasksListBox" Grid.Row="6" BorderThickness="0,2,0,0"/>
     </Grid>
 </Window>

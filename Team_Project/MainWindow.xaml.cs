@@ -114,7 +114,7 @@ namespace Team_Project
                 SqlDataReader reader = plans.ExecuteReader();
 
                 while (reader.Read())
-                    listbox.Items.Add(reader.GetString(1) + ": (Till " + reader.GetDateTime(3).ToShortDateString() + ")");
+                    listbox.Items.Add(reader.GetString(2) + ": (Till " + reader.GetDateTime(4).ToShortDateString() + ")");
 
                 connection.Close();
             }

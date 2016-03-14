@@ -42,6 +42,11 @@ namespace Team_Project
         }
 
         /// <summary>
+        /// Current Id for selected plan in plans listbox
+        /// </summary>
+        public int CurrentPlanId { get; set; }
+
+        /// <summary>
         /// Closing event handler
         /// </summary>
         private void App_Closing(object sender, EventArgs e)
@@ -116,12 +121,11 @@ namespace Team_Project
                 else
                 {
                     MainWindow.Connection.Open();
-                    cmd = new SqlCommand(@"delete from [Plan] where Description like '" + (plansListBox.SelectedItem.ToString().Split(':')[0]) + "'", MainWindow.Connection);
+                    cmd = new SqlCommand(@"delete from [Plan] where Id like " + CurrentPlanId, MainWindow.Connection);
                     cmd.ExecuteNonQuery();
                     MainWindow.Connection.Close();
 
                     MainWindow.GetTasks(MainWindow.Connection, plansListBox, "N");
-
                 }
             }
             catch (SqlException ex)
@@ -148,7 +152,7 @@ namespace Team_Project
                 {
                     plan = new PlanDescription();
                     plan.descriptionTextBox.Text = plansListBox.SelectedItem.ToString().Split(':')[0];
-                    plan.DeadLine_datepicker.SelectedDate = GetDeadLineDate(MainWindow.Connection, plansListBox.SelectedItem.ToString().Split(':')[0]);
+                    plan.DeadLine_datepicker.SelectedDate = GetDeadLineDate(MainWindow.Connection, CurrentPlanId);
 
                     bool? result = plan.ShowDialog();
 
@@ -159,12 +163,10 @@ namespace Team_Project
                         {
                             MainWindow.Connection.Open();
                             cmd = new SqlCommand(@"update [Plan] set Description='" + plan.descriptionTextBox.Text + "', "
-                                + "DeadLine='" + plan.DeadLine_datepicker.SelectedDate + "' "
-                                    + "where Description like '" + plansListBox.SelectedItem.ToString().Split(':')[0] + "'", MainWindow.Connection);
+                                + "DeadLine='" + plan.DeadLine_datepicker.SelectedDate + "' where Id like " + CurrentPlanId, MainWindow.Connection);
                             cmd.ExecuteNonQuery();
                             MainWindow.Connection.Close();
 
-                            plansListBox.Items.Clear();
                             MainWindow.GetTasks(MainWindow.Connection, plansListBox, "N");
                         }
                         else
@@ -197,7 +199,7 @@ namespace Team_Project
                 if (plansListBox.SelectedItem != null)
                 {
                     MainWindow.Connection.Open();
-                    cmd = new SqlCommand(@"update [Plan] set IsCompleted='Y' where Description like '" + plansListBox.SelectedItem.ToString().Split(':')[0] + "'", MainWindow.Connection);
+                    cmd = new SqlCommand(@"update [Plan] set IsCompleted='Y' where Id like " + CurrentPlanId, MainWindow.Connection);
                     cmd.ExecuteNonQuery();
                     MainWindow.Connection.Close();
 
@@ -280,13 +282,13 @@ namespace Team_Project
         /// <summary>
         /// Gets the deadline date for selected plan in plans listbox
         /// </summary>
-        private DateTime GetDeadLineDate(SqlConnection connection, string description)
+        private DateTime GetDeadLineDate(SqlConnection connection, int Id)
         {
             DateTime deadline = new DateTime();
             try
             {
                 connection.Open();
-                var time = new SqlCommand(("Select DeadLine from [Plan] where User_login like '" + MainWindow.CurrentUser + "'and Description like '" + description + "' and IsCompleted like 'N'"), connection);
+                var time = new SqlCommand(("Select DeadLine from [Plan] where Id like " + CurrentPlanId + " and IsCompleted like 'N'"), connection);
                 SqlDataReader reader = time.ExecuteReader();
 
                 while (reader.Read())
@@ -305,6 +307,47 @@ namespace Team_Project
             }
 
             return deadline;
+        }
+
+        /// <summary>
+        /// Gets the Id for the selected plan in plans listbox
+        /// </summary>
+        private int GetId(SqlConnection connection, string description)
+        {
+            int Id = 0;
+            try
+            {
+                connection.Open();
+                var id_query = new SqlCommand(("Select Id from [Plan] where User_login like '" + MainWindow.CurrentUser + "'and Description like '" + description + "' and IsCompleted like 'N'"), connection);
+                SqlDataReader reader = id_query.ExecuteReader();
+
+                while (reader.Read())
+                    Id = reader.GetInt32(0);
+                connection.Close();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow.Connection.Close();
+            }
+            catch (Exception except)
+            {
+                MessageBox.Show(except.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow.Connection.Close();
+            }
+
+            return Id;
+        }
+
+        /// <summary>
+        /// Sets the Id for the selected plan in plans listbox
+        /// </summary>
+        private void plansListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (plansListBox.SelectedItem == null)
+                CurrentPlanId = 0;
+            else
+                CurrentPlanId = GetId(MainWindow.Connection, plansListBox.SelectedItem.ToString().Split(':')[0]);
         }
     }
 }
