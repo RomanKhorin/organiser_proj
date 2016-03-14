@@ -209,6 +209,7 @@ namespace Team_Project
             catch (SqlException ex)
             {
                 MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow.Connection.Close();
             }
             catch (Exception except)
             {
