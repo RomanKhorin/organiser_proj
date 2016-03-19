@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Team_Project
+namespace Plan_Organiser
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

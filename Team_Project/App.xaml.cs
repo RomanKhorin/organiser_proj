@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Team_Project
+namespace Plan_Organiser
 {
     /// <summary>
     /// Interaction logic for App.xaml

@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Team_Project
+namespace Plan_Organiser
 {
     /// <summary>
     /// Interaction logic for PlanDescription.xaml
