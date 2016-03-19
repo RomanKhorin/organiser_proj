@@ -56,11 +56,13 @@ namespace Team_Project
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("The user with this login already exists! Choose another login!", "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow.Connection.Close();
             }
             catch (Exception except)
             {
                 MessageBox.Show(except.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MainWindow.Connection.Close();
             }
         }
 
