@@ -28,7 +28,7 @@ namespace Plan_Organiser
         SqlCommand cmd;
 
         /// <summary>
-        /// Instance of the PlnaDescription class
+        /// Instance of the PlanDescription class
         /// </summary>
         PlanDescription plan;
 
@@ -142,7 +142,7 @@ namespace Plan_Organiser
 
         /// <summary>
         /// Allows the user to edit the selected plan after pressing 
-        /// the "Edit" button,
+        /// the "Edit" button
         /// </summary>
         private void editButton_Click(object sender, RoutedEventArgs e)
         {

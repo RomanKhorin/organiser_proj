@@ -101,7 +101,7 @@ namespace Plan_Organiser
         }
 
         /// <summary>
-        /// Queries the DataBase, gets the uncompleted user's tasks
+        /// Queries the DataBase, gets user's tasks with a particular status
         /// and adds them to the plans listbox
         /// </summary>
         public static void GetTasks(SqlConnection connection, ListBox listbox, string status)
