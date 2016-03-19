@@ -61,5 +61,7 @@
   <ItemGroup>
     <Build Include="Plan_15_03_2016.sql" />
     <Build Include="User_15_03_2016.sql" />
+    <Build Include="User_entity.sql" />
+    <Build Include="Plan_entity.sql" />
   </ItemGroup>
 </Project>
