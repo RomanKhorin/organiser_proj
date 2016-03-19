@@ -27,7 +27,7 @@ namespace Plan_Organiser
         /// Instance of the PlanWindow class
         /// </summary>
         PlansWindow plan_window;
-        private SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\v11.0;AttachDbFilename=C:\\Users\\" + WindowsIdentity.GetCurrent().Name.Split('\\')[1] + "\\Documents\\Visual Studio 2013\\Projects\\Team_Project\\ODB\\ODB\\ODB.mdf;Integrated Security=True;Connect Timeout=30");
+        private SqlConnection connection = new SqlConnection("Data Source=(LocalDB)\\v11.0;AttachDbFilename=" + System.IO.Path.GetFullPath("../../DataBase/ODB.mdf") + ";Integrated Security=True;Connect Timeout=30");
 
         /// <summary>
         /// Current User in application
